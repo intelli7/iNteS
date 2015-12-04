@@ -1,0 +1,38 @@
+<% content_for :js do %>
+
+<script type="text/javascript">
+  
+  $(document).ready(function() {
+    $('select').select2({ width: 'resolve' });
+  });
+
+</script>
+<% end %>
+<div class="row">
+
+  <div class="col-md-6">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-info">
+        <div class="panel-heading progress-bar-striped">
+          <h4 class="panel-title text-center">TOPSIS Preferences</h4>
+        </div>
+        <div class="panel-body" style="background-color: #F8F8F8">
+          <p>Please select Program and set the preferences accordingly</p>
+
+        </div>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="text-center">Program</td>
+              <td>
+                <select style="width: 100%">
+                  <option>AT12 - SARJANA MUDA SAINS KOMPUTER (KEPUJIAN)</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
