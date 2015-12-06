@@ -1,12 +1,6 @@
 <% content_for :js do %>
 
-<script type="text/javascript">
-  
-  $(document).ready(function() {
-    $('select').select2({ width: 'resolve' });
-  });
-
-</script>
+<script type="text/javascript" src="assets/dashboard.js" ></script>
 <% end %>
 <div class="row">
 
@@ -25,8 +19,14 @@
             <tr>
               <td class="text-center">Program</td>
               <td colspan="2">
-                <select style="width: 100%">
-                  <option>AT12 - SARJANA MUDA SAINS KOMPUTER (KEPUJIAN)</option>
+                <select class="programlistselect" style="width:450px">
+                  <% Ipt.all.each do |i| %>
+                  <optgroup label="<%=i.shortname%>">
+                    <% i.programs.where(:programlevel_code => 'I').each do |p| %>
+                    <option value="<%=p.upucode%>"><%=p.upucode%> - <%=p.nameeng%></option>
+                    <% end %>
+                  </optgroup>
+                  <% end %>
                 </select>
               </td>
             </tr>
@@ -36,40 +36,48 @@
               <th class="text-center">Weight</th>
             </tr>
             <tr>
-              <td class="text-center"><input type="checkbox" /></td>
+              <td class="text-center"><input id="cb_pngk" type="checkbox" /></td>
               <td>CGPA/PNGK</td>
-              <td class="text-center"><input type="number"  style="width: 100%" /></td>
+              <td class="text-center"><input type="number"  id="w_pngk"  style="width: 100%" placeholder="0.0" value="1" /></td>
             </tr>
             <tr>
-              <td class="text-center"><input type="checkbox" /></td>
+              <td class="text-center"><input id="cb_koko" type="checkbox" /></td>
               <td>CoCurriculum Mark</td>
-              <td class="text-center"><input type="number"  style="width: 100%" /></td>
+              <td class="text-center"><input type="number" id="w_koko" style="width: 100%" placeholder="0.0" value="1"/></td>
             </tr>
             <tr>
               <td class="text-center"><input type="checkbox" /></td>
-              <td>Entry Requirement</td>
-              <td class="text-center"><input type="number"  style="width: 100%" /></td>
+              <td class=" text-danger">Entry Requirement</td>
+              <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
             </tr>
             <tr>
               <td class="text-center"><input type="checkbox" /></td>
-              <td>Preffered University</td>
-              <td class="text-center"><input type="number"  style="width: 100%" /></td>
+              <td class=" text-danger">Preffered University</td>
+              <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
             </tr>
             <tr>
               <td class="text-center"><input type="checkbox" /></td>
-              <td>Salary</td>
-              <td class="text-center"><input type="number"  style="width: 100%" /></td>
+              <td class=" text-danger">Salary</td>
+              <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
             </tr>
             <tr>
               <td class="text-center"><input type="checkbox" /></td>
-              <td>Location</td>
-              <td class="text-center"><input type="number"  style="width: 100%" /></td>
+              <td class=" text-danger">Location</td>
+              <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
             </tr>
             
           </tbody>
         </table>
-        <div class="panel-footer text-right" style="background-color: #F5FAFD">
-          <input type="button" class="btn btn-primary" value="Suggest">
+        <div class="panel-footer" style="background-color: #F5FAFD">
+          <div class="row">
+            <div class=" text-left col-md-8">
+                <input type="button" class="btn btn-success btn-xs " value="UPU Weight (90/10)">
+                <input type="button" class="btn btn-danger btn-xs " value="Random Weight">
+            </div>
+            <div class=" text-right col-md-4">
+                <input type="button" id="btn_suggest" class="btn btn-primary " value="Suggest">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -80,10 +88,10 @@
       <div class="panel-heading">
         <h3 class="panel-title">Console Log</h3>
       </div>
-      <div class="panel-body" style="background:black;color:white;height:360px;">
-        <samp>test</samp>
+      <div id="log_console" data-spy="scroll"  data-offset="50" class="panel-body" style="background:white;color:black;height:360px;position:relative;overflow: scroll;font-size:small;">
+        
       </div>
-      <div class="panel-footer text-right" style="background-color: #FCF8E3">
+      <div id="consolelog" class="panel-footer text-right" style="background-color: #FCF8E3">
           <input type="button" class="btn btn-danger btn-xs" value="Clear">
         </div>
     </div>
@@ -97,9 +105,8 @@
         <div class="panel-heading progress-bar-striped">
           <h4 class="panel-title text-center">TOPSIS Result</h4>
         </div>
-        <div class="panel-body" style="background-color: rgba(222, 240, 215, 0.35);">
-          <p><code>30</code> Student suggestted based on your preferences.</p>
-          <p>Total data : <code>433000</code></p>
+        <div id='table_result_info' class="panel-body" style="background-color: rgba(222, 240, 215, 0.35);">
+          
 
         </div>
         <table class="table table-striped table-hover table-condensed">
@@ -110,21 +117,12 @@
               <th class="text-center">NAME</th>
               <th class="text-center">CGPA/PNGK</th>
               <th class="text-center">RESULT</th>
+              <th class="text-center">CHOICE NO.</th>
               <th class="text-center">C*</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="text-center">1</td>
-              <td class="text-center">930203013223</td>
-              <td>MOHD HALIM RAIN</td>
-              <td class="text-center">3.46</td>
-              <td>
-                <code>STPM: PA-3.5, PP-3.75</code>
-                <code>SPM: BM-A, BI-C</code>
-              </td>
-              <td>3.22</td>
-            </tr>
+          <tbody id='table_result'>
+            
             
             
           </tbody>
