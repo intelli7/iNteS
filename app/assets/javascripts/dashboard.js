@@ -24,15 +24,22 @@ $(document).ready(function() {
       
         $('#log_console').html(data.log);
         $('#table_result_info').html(data.info);
+        
+      
+        thead = "<tr>"
+        $.each( data.thead, function( i, item ) {
+          thead += "<th class=\"text-center\">"+item.toUpperCase()+"</th>"
+        });
+        thead += "</tr>"
+        $('#table_result_header').html(thead);
+      
+      
         $.each( data.recommendation, function( i, item ) {
           var row = "<tr>";
-          row +="<td class=\"text-center\">"+item.rank+"</td>";
-          row +="<td class=\"text-center\"><span class=\"label label-primary\">"+item.mykad+"</span></td>";
-          row +="<td>"+item.name+"</td>";
-          row +="<td class=\"text-center\">"+item.pngk+"</td>";
-          row +="<td><code>STPM: PA-3.5, PP-3.75</code><code>SPM: BM-A, BI-C</code></td>";
-          row +="<td class=\"text-center\"><span class=\"label label-default\">"+item.choicerank+"</span></td>";
-          row +="<td class=\"text-center\">"+item.distance+"</td>";
+          $.each( data.thead, function( j, th ) {
+            row += "<td class=\"text-center\">"+item[th]+"</td>"
+          });
+          
           row +="</tr>";
           $('#table_result').append(row);
         });

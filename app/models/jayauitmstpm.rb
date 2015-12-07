@@ -52,4 +52,8 @@ class Jayauitmstpm < ActiveRecord::Base
     
     return 0
   end
+  
+  def examresult
+    return "Not Available"
+  end
 end

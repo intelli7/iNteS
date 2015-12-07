@@ -47,6 +47,11 @@ class ApiController < ApplicationController
   
     recommendation = calculate_distance(dm, ideal_positive, ideal_negative)
          
+    #initialize thead for result table
+    thead = %w[rank mykad name pngk ]                #field wajib
+    thead.push('koko') if !@preferences['koko'].nil?
+    thead += %w[exam choicerank distance]           #field wajib
+    
     count = 0;
     recommendation = recommendation.map do |rx|
       r = Jayauitmstpm.find(rx.first[1].to_i)
@@ -59,7 +64,9 @@ class ApiController < ApplicationController
         name: r.NAMA,
         mykad: r.NOKP,
         muet: r.TMUET,
-        pngk: r.PURATAPNGK
+        pngk: r.PURATAPNGK,
+        koko: r.MARKOKOKPM,
+        exam: r.examresult
       }
     end
    
@@ -79,6 +86,7 @@ class ApiController < ApplicationController
               :ideal_negative => ideal_negative,
               :log => log, 
               :info => infotable,
+              :thead => thead,
               :recommendation =>recommendation
             }
   end
