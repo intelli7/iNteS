@@ -1,0 +1,9 @@
+case "$1" in
+	unicorn)
+		unicorn_pid=`cat /var/www/iNteS/pids/unicorn.pid`
+		echo "Restarting iNteS Unicorn ($unicorn_pid)"
+		kill -9 $unicorn_pid 
+		unicorn_rails -c config/unicorn.rb -D -E development
+		exit 0
+		;;
+esac
