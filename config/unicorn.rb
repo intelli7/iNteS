@@ -1,5 +1,5 @@
 # config/unicorn.rb
-appname = "intes"
+appname = "iNteS"
 working_directory "/var/www/#{appname}"
 pid "/var/www/#{appname}/pids/unicorn.pid"
 stderr_path "/var/www/#{appname}/log/unicorn.log"
