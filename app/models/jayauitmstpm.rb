@@ -56,4 +56,36 @@ class Jayauitmstpm < ActiveRecord::Base
   def examresult
     return "Not Available"
   end
+  
+  def pendapatankeluarga
+    return 10-self.PDAPATK.to_i
+  end
+  
+  def pendapatankeluarga_detail
+    return case(self.PDAPATK.to_i)
+      when 10
+        "TIADA PENDAPATAN"
+      when 5
+        "RM3001-RM4000"
+      when 9
+        "RM1-RM500"
+      when 4
+        "RM4001-RM5000"
+      when 8
+        "RM501-RM1000"
+      when 3
+        "RM5001-RM7500"
+      when 7
+        "RM1001-RM2000"
+      when 2
+        "RM7501-RM10000"
+      when 6
+        "RM2001-RM3000"
+      when 1
+        "RM10001 DAN KE ATAS"
+      else
+        "NIL"
+    end
+    return 10-self.PDAPATK.to_i
+  end
 end

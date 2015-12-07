@@ -10,6 +10,9 @@ $(document).ready(function() {
     if($('#cb_koko').is(':checked')){
       pref[count++] = 'koko|'+$('#w_koko').val();
     }
+    if($('#cb_pendapatan').is(':checked')){
+      pref[count++] = 'pendapatan|'+$('#w_pendapatan').val();
+    }
     
     return pref;
   }

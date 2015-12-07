@@ -50,6 +50,7 @@ class ApiController < ApplicationController
     #initialize thead for result table
     thead = %w[rank mykad name pngk ]                #field wajib
     thead.push('koko') if !@preferences['koko'].nil?
+    thead.push('pendapatan') if !@preferences['pendapatan'].nil?
     thead += %w[exam choicerank distance]           #field wajib
     
     count = 0;
@@ -66,7 +67,8 @@ class ApiController < ApplicationController
         muet: r.TMUET,
         pngk: r.PURATAPNGK,
         koko: r.MARKOKOKPM,
-        exam: r.examresult
+        exam: r.examresult,
+        pendapatan: r.pendapatankeluarga_detail
       }
     end
    
@@ -98,6 +100,8 @@ class ApiController < ApplicationController
           'PURATAPNGK'
         when 'koko'
           'MARKOKOKPM'
+        when 'pendapatan'
+          "PDAPATK"
         else
           nil
       end

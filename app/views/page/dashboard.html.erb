@@ -36,32 +36,33 @@
               <th class="text-center">Weight</th>
             </tr>
             <tr>
-              <td class="text-center"><input id="cb_pngk" type="checkbox" /></td>
+              <td class="text-center"><input id="cb_pngk" type="checkbox" checked /></td>
               <td>CGPA/PNGK</td>
-              <td class="text-center"><input type="number"  id="w_pngk"  style="width: 100%" placeholder="0.0" value="1" /></td>
+              <td class="text-center"><input type="number"  id="w_pngk"  style="width: 100%" placeholder="0.0" value="70" /></td>
             </tr>
             <tr>
               <td class="text-center"><input id="cb_koko" type="checkbox" /></td>
               <td>CoCurriculum Mark</td>
-              <td class="text-center"><input type="number" id="w_koko" style="width: 100%" placeholder="0.0" value="1"/></td>
+              <td class="text-center"><input type="number" id="w_koko" style="width: 100%" placeholder="0.0" value="20"/></td>
             </tr>
             <tr>
-              <td class="text-center"><input type="checkbox" /></td>
+              <td class="text-center"><input id="cb_pendapatan"  type="checkbox" /></td>
+              <td>Salary</td>
+              <td class="text-center"><input type="number" id="w_pendapatan"  style="width: 100%" placeholder="0.0" value="10"/></td>
+            </tr>
+            <tr>
+              <td class="text-center"><input type="checkbox" disabled /></td>
               <td class=" text-danger">Entry Requirement</td>
               <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
             </tr>
             <tr>
-              <td class="text-center"><input type="checkbox" /></td>
+              <td class="text-center"><input type="checkbox" disabled /></td>
               <td class=" text-danger">Preffered University</td>
               <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
             </tr>
+            
             <tr>
-              <td class="text-center"><input type="checkbox" /></td>
-              <td class=" text-danger">Salary</td>
-              <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
-            </tr>
-            <tr>
-              <td class="text-center"><input type="checkbox" /></td>
+              <td class="text-center"><input type="checkbox" disabled /></td>
               <td class=" text-danger">Location</td>
               <td class="text-center"><input type="number"  style="width: 100%" placeholder="0.0"/></td>
             </tr>
@@ -71,8 +72,8 @@
         <div class="panel-footer" style="background-color: #F5FAFD">
           <div class="row">
             <div class=" text-left col-md-8">
-                <input type="button" class="btn btn-success btn-xs " value="UPU Weight (90/10)">
-                <input type="button" class="btn btn-danger btn-xs " value="Random Weight">
+                <input type="button" class="btn btn-success btn-xs disabled" value="UPU Weight (90/10)">
+                <input type="button" class="btn btn-danger btn-xs disabled" value="Random Weight">
             </div>
             <div class=" text-right col-md-4">
                 <input type="button" id="btn_suggest" class="btn btn-primary " value="Suggest">
