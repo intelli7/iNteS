@@ -20,15 +20,33 @@ class ApiController < ApplicationController
  
     #@url_params = params.to_param.sub("action=rekomendasi&controller=webhosts&", "")
     
+  
+  
     #1) get all qualified candidate from selection list. (1-12th choice)
     @rs = Jayauitmstpm.getselection(params[:upucode])
     log += "<br\><samp>1) Select candidate:  <kbd>#{@rs.count}</kbd> out of #{Jayauitmstpm.count} selected for alternative</samp><br />"
+  
     
+  
     #2) initialize preferences from user's form
     @ar_pref = Array.new
     @preferences = initialize_preferences
     log += "<samp>2) Initialize preferences: <kbd>#{@preferences.count} Pref</kbd> selected.</samp><br />"
     
+    #calculate distance if required using google map qeocoder gem
+    if(@preferences.has_key?("location"))
+      ipt = Ipt.where(:code => params[:upucode][0]).first.shortname
+      @rs.each do |rx|
+        
+        jarak  = Geocoder::Calculations.distance_between(Geocoder.coordinates(ipt), Geocoder.coordinates(rx.BANDAR)) rescue 9999
+        #puts 'JARAK: '+jarak.to_s
+        rx.jarakdarirumah = jarak
+        rx.save if jarak == 'NaN'
+      end
+      log += "<samp>2.1) Calculate distance from google geocoder gem</kbd></samp><br />"
+    end
+
+  
     #3) initialize decision matrix (DM)
     dm = initialize_decision_matrix
     log += "<samp>3) Initialize decision matrix: <kbd>#{dm.count} alternative x #{@preferences.count} pref</kbd></samp><br />"
@@ -51,6 +69,7 @@ class ApiController < ApplicationController
     thead = %w[rank mykad name pngk ]                #field wajib
     thead.push('koko') if !@preferences['koko'].nil?
     thead.push('salary') if !@preferences['pendapatan'].nil?
+    thead.push('location') if !@preferences['location'].nil?
     thead += %w[exam choicerank distance]           #field wajib
     
     count = 0;
@@ -68,6 +87,8 @@ class ApiController < ApplicationController
         pngk: r.PURATAPNGK,
         koko: r.MARKOKOKPM,
         exam: r.examresult,
+        location: r.jarakdarirumah,
+        bandar: r.BANDAR,
         salary: r.pendapatankeluarga_detail
       }
     end
@@ -100,8 +121,10 @@ class ApiController < ApplicationController
           'PURATAPNGK'
         when 'koko'
           'MARKOKOKPM'
+        when 'location'
+          'jarakdarirumah'
         when 'pendapatan'
-          "PDAPATK"
+          'PDAPATK'
         else
           nil
       end

@@ -13,6 +13,9 @@ $(document).ready(function() {
     if($('#cb_pendapatan').is(':checked')){
       pref[count++] = 'pendapatan|'+$('#w_pendapatan').val();
     }
+    if($('#cb_location').is(':checked')){
+      pref[count++] = 'location|'+$('#w_location').val();
+    }
     
     return pref;
   }

@@ -49,6 +49,7 @@ group :development do
 end
 
 #gem 'bootstrap-sass', '~> 3.3.6'
+gem 'geocoder'
 
 group :production do
   gem 'unicorn-worker-killer'

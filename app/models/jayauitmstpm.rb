@@ -61,6 +61,10 @@ class Jayauitmstpm < ActiveRecord::Base
     return 10-self.PDAPATK.to_i
   end
   
+  def alamatpenuh
+    self.ALAM1 + ',' + self.ALAM2 + ', ' + self.POSKOD + ' ' + self.BANDAR
+  end
+  
   def pendapatankeluarga_detail
     return case(self.PDAPATK.to_i)
       when 10
