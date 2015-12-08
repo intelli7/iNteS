@@ -35,15 +35,18 @@ class ApiController < ApplicationController
     
     #calculate distance if required using google map qeocoder gem
     if(@preferences.has_key?("location"))
+      log += "<samp>2.1) Calculate distance from google geocoder gem</kbd></samp><br />"
       ipt = Ipt.where(:code => params[:upucode][0]).first.shortname
       @rs.each do |rx|
         
         jarak  = Geocoder::Calculations.distance_between(Geocoder.coordinates(ipt), Geocoder.coordinates(rx.BANDAR)) rescue 9999
         #puts 'JARAK: '+jarak.to_s
-        rx.jarakdarirumah = jarak
-        rx.save if jarak == 'NaN'
+        #log += "<samp>     From #{ipt} to #{rx.BANDAR} = #{jarak}</samp><br />"
+        if jarak.is_a? Float
+          rx.jarakdarirumah = jarak 
+          rx.save
+        end
       end
-      log += "<samp>2.1) Calculate distance from google geocoder gem</kbd></samp><br />"
     end
 
   
